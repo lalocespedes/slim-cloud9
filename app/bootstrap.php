@@ -62,3 +62,9 @@ $view->parserExtensions = [
 $app->container->set('user', function() {
 	return new User;
 });
+
+function APIrequest() {
+      $app = \Slim\Slim::getInstance();
+      $app->view(new \JsonApiView());
+      $app->add(new \JsonApiMiddleware());
+}
