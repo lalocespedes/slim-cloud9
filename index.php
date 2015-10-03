@@ -6,6 +6,9 @@ use Slim\Views\TwigExtension;
 
 use Noodlehaus\Config;
 
+//models
+use lalocespedes\Models\User\User;
+
 // set timezone for timestamps etc
 date_default_timezone_set('Mexico/General');
 session_cache_limiter(false);
@@ -38,6 +41,7 @@ $app->configureMode($app->config('mode'), function() use ($app) {
 });
 
 require  './app/routes.php';
+require  './app/config/database.php';
 
 $view = $app->view();
 
@@ -52,5 +56,11 @@ $view->parseOptions = [
 $view->parserExtensions = [
 	new TwigExtension
 ];
+
+//containers
+
+$app->container->set('user', function() {
+	return new User;
+});
 
 $app->run();

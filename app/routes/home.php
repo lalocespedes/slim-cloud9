@@ -2,8 +2,16 @@
 
 $app->get('/', function() use($app) {
     
-    echo 'index';
+    $users = $app->user->all();
     
-    echo $app->config->get('db.driver');
+    dump($users);
+    
+    $db = $app->config->get('db.driver');
+    
+    $app->render('home.php', [
+            'name'  => 'Josh',
+            'db'    => $db
+        ]
+    );
     
 })->name('home');
