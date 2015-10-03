@@ -4,6 +4,8 @@ use Slim\Slim;
 use Slim\Views\Twig;
 use Slim\Views\TwigExtension;
 
+use Noodlehaus\Config;
+
 // set timezone for timestamps etc
 date_default_timezone_set('Mexico/General');
 session_cache_limiter(false);
@@ -31,7 +33,11 @@ $app = new Slim([
 	'templates.path' =>  './app/views'
 ]);
 
-require './app/routes.php';
+$app->configureMode($app->config('mode'), function() use ($app) {
+	$app->config = Config::load( "./app/config/{$app->mode}.php");
+});
+
+require  './app/routes.php';
 
 $view = $app->view();
 
