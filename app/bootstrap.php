@@ -68,3 +68,15 @@ function APIrequest() {
       $app->view(new \JsonApiView());
       $app->add(new \JsonApiMiddleware());
 }
+
+$app->container->set('phinx', function() use($app) {
+	
+	$phinx = new Phinx\Console\PhinxApplication();
+	return new Phinx\Wrapper\TextWrapper($phinx, [
+		'configuration' => './app/phinx.yml',
+		'parser'		=> 'yaml',
+		'name' 			=> $app->config->get('db.name'),
+		'user'			=> $app->config->get('db.username'),
+		'pass'			=> $app->config->get('db.password')
+	]);
+});
